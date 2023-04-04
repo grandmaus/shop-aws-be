@@ -10,7 +10,7 @@ export const getProductsList = async () => {
 
     return formatJSONResponse({ products }, 200);
   } catch (error) {
-    return formatJSONResponse({ message: error }, 404);
+    return formatJSONResponse({ message: error.message }, 404);
   }
 };
 

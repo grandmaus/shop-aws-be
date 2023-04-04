@@ -1,3 +1,9 @@
+# Endpoints
+
+- [getProductsList](https://3bqcfo5s3d.execute-api.us-east-1.amazonaws.com/dev/products)
+- [getProductsById](https://3bqcfo5s3d.execute-api.us-east-1.amazonaws.com/dev/products/1)
+- [SWAGGER documentation](https://3bqcfo5s3d.execute-api.us-east-1.amazonaws.com/dev/swagger)
+
 # Serverless - AWS Node.js Typescript
 
 This project has been generated using the `aws-nodejs-typescript` template from the [Serverless framework](https://www.serverless.com/).

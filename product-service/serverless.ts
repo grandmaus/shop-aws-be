@@ -4,10 +4,10 @@ import { getProductsById, getProductsList } from "@functions/index";
 const serverlessConfiguration: AWS = {
   service: 'product-service',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild'],
+  plugins: ['serverless-webpack', 'serverless-auto-swagger'],
   provider: {
     name: 'aws',
-    runtime: 'nodejs14.x',
+    runtime: 'nodejs16.x',
     stage: 'dev',
     region: 'us-east-1',
     apiGateway: {
@@ -23,9 +23,15 @@ const serverlessConfiguration: AWS = {
   package: { individually: true },
   custom: {
     webpack: {
-      webpackConfig: './webpack.config.js',
+      webpackConfig: 'webpack.config.js',
       includeModules: true,
+      excludeFiles: 'src/**/handler.ts',
     },
+    autoswagger: {
+      apiType: 'http',
+      typefiles: ['./src/types/api-types.d.ts'],
+      basePath: '/dev',
+    }
   },
 };
 
