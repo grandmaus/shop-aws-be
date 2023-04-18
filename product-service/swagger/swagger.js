@@ -8,8 +8,8 @@
   "paths": {
     "/products": {
       "get": {
-        "summary": "getProductsList",
-        "description": "",
+        "summary": "List of products",
+        "description": "Request all available products",
         "operationId": "getProductsList.get.products",
         "consumes": [
           "application/json"
@@ -20,15 +20,66 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "200 response"
+            "description": "✅Success",
+            "schema": {
+              "$ref": "#/definitions/ProductsList"
+            }
+          },
+          "500": {
+            "description": "❌Server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Product",
+        "description": "Add a new product",
+        "operationId": "createProduct.post.products",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body required in the request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProductPost"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "✅Product added successfully",
+            "schema": {
+              "$ref": "#/definitions/InfoResponse"
+            }
+          },
+          "400": {
+            "description": "❌Product data is invalid",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "❌Server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
     },
     "/products/{productId}": {
       "get": {
-        "summary": "getProductsById",
-        "description": "",
+        "summary": "Product by Id",
+        "description": "Request available product by Id",
         "operationId": "getProductsById.get.products/{productId}",
         "consumes": [
           "application/json"
@@ -46,7 +97,22 @@
         ],
         "responses": {
           "200": {
-            "description": "200 response"
+            "description": "✅Success",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          "404": {
+            "description": "❌There is no product  in a table",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "❌Server error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
         }
       }
@@ -70,6 +136,10 @@
         "price": {
           "title": "Product.price",
           "type": "number"
+        },
+        "count": {
+          "title": "Product.count",
+          "type": "number"
         }
       },
       "required": [
@@ -80,6 +150,53 @@
       ],
       "additionalProperties": false,
       "title": "Product",
+      "type": "object"
+    },
+    "ProductPost": {
+      "properties": {
+        "title": {
+          "title": "ProductPost.title",
+          "type": "string"
+        },
+        "description": {
+          "title": "ProductPost.description",
+          "type": "string"
+        },
+        "price": {
+          "title": "ProductPost.price",
+          "type": "number"
+        },
+        "count": {
+          "title": "ProductPost.count",
+          "type": "number"
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "price",
+        "count"
+      ],
+      "additionalProperties": false,
+      "title": "ProductPost",
+      "type": "object"
+    },
+    "Stock": {
+      "properties": {
+        "product_id": {
+          "title": "Stock.product_id"
+        },
+        "count": {
+          "title": "Stock.count",
+          "type": "number"
+        }
+      },
+      "required": [
+        "product_id",
+        "count"
+      ],
+      "additionalProperties": false,
+      "title": "Stock",
       "type": "object"
     },
     "ProductsList": {
@@ -111,6 +228,20 @@
       ],
       "additionalProperties": false,
       "title": "Error",
+      "type": "object"
+    },
+    "InfoResponse": {
+      "properties": {
+        "message": {
+          "title": "InfoResponse.message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message"
+      ],
+      "additionalProperties": false,
+      "title": "InfoResponse",
       "type": "object"
     }
   },
