@@ -1,9 +1,10 @@
-import { S3 } from 'aws-sdk';
+import { S3, SQS } from 'aws-sdk';
 import { S3Event } from 'aws-lambda';
 import { formatJSONResponse } from '@libs/api-gateway';
 import csv from 'csv-parser';
 
 const s3 = new S3({ region: 'us-east-1' });
+const SQSInstance = new SQS();
 
 const importFileParser = async (event: S3Event) => {
   await Promise.all(
@@ -23,8 +24,11 @@ const importFileParser = async (event: S3Event) => {
               skipLines: 1,
             })
           )
-          .on('data', (data) => {
-            console.log('data', JSON.stringify(data));
+          .on('data', async (data) => {
+            await SQSInstance.sendMessage({
+              QueueUrl: process.env.SQS_URL,
+              MessageBody: JSON.stringify(data),
+            }).promise();
           })
           .on('error', (error) => {
             console.log(error);
