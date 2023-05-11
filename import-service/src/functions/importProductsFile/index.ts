@@ -16,6 +16,13 @@ const functionConfig: AWS['functions']['string'] = {
             },
           },
         },
+        authorizer: {
+          name: 'basicAuthorizer',
+          arn: { 'Fn::ImportValue': 'authorizerArn' },
+          resultTtlInSeconds: 0,
+          identitySource: 'method.request.header.Authorization',
+          type: 'token',
+        },
       },
     },
   ],
